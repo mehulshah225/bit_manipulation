@@ -1,4 +1,4 @@
-// This program is to use the concept of getter and setters using pointers. The value is stored in a file
+// This program is to use to set a particular value within range [i,j] and update the new value
 // Author: Mehul Shah
 
 #include <stdio.h>
@@ -6,8 +6,15 @@
 #include <stdlib.h>
 
 uint32_t SetValue(unsigned int* w, int* i, int* j, unsigned int* v) {
-    if (*j <= 31 && *j >= *i && *i >= 0) {
-        *w = *v;
+    if (*j <= 31 && *j >= *i && *i >= 0) {	// Condition to check if the bits to be set are within unsigned range
+	int mask = 0;
+        for(int k = *i; k <= *j; k++){
+	    mask |= (1<<k);
+	}
+	
+	*v <<= *i;	// Shifting v by i bits to be ORed with new value
+
+	*w = (*w & ~mask) | (*v);	//Clear bits within range of w and set v bits in the given range
 	
         // Store the value in a file
         FILE* file = fopen("value.txt", "w");
@@ -32,7 +39,7 @@ uint32_t GetValue(unsigned int* w, int* i, int* j) {
 }
 
 int main(int argc, char* argv[]) {
-    unsigned int w = 0; // Declare 'w' outside the if block
+    unsigned int w = 10; // Declare 'w' outside the if block
 
     if (argc == 4) {
         int j = atoi(argv[1]);
@@ -40,8 +47,9 @@ int main(int argc, char* argv[]) {
         unsigned int v = (unsigned int)strtoul(argv[3], NULL, 0); // Parse the value as hexadecimal
 
         printf("Usage : %s <j> <i> <v>\n", argv[0]);
+	printf("Value of w before modyfying: 0x%X\n", w);
        	SetValue(&w, &i, &j, &v);
-	printf("Value has been set\nRun the command: %s <j> <v> \nThis will print the value\n", argv[0]);
+	printf("New value has been set\nRun the command: %s <j> <v>\n", argv[0]);
 
     } else if (argc == 3) {
         int j = atoi(argv[1]);
@@ -56,4 +64,3 @@ int main(int argc, char* argv[]) {
 
     return 0;
 }
-

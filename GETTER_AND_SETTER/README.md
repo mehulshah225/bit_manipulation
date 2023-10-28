@@ -1,6 +1,6 @@
 # This is a readme for getter_setter.c
 
-The codes intent is to copy a variables value by using the SetValue func and transfer the copy to GetValue
+The codes intents to take an external input: value,range and set the  variable value by using the SetValue func and transfer the copy to GetValue
 
 Compile the code using: gcc -0 out getter_setter.c
 
