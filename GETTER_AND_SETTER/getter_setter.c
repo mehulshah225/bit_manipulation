@@ -8,8 +8,7 @@
 uint32_t SetValue(unsigned int* w, int* i, int* j, unsigned int* v) {
     if (*j <= 31 && *j >= *i && *i >= 0) {
         *w = *v;
-        printf("Value has been set\n Now again run the command to get the value\n");
-
+	
         // Store the value in a file
         FILE* file = fopen("value.txt", "w");
         if (file) {
@@ -40,15 +39,19 @@ int main(int argc, char* argv[]) {
         int i = atoi(argv[2]);
         unsigned int v = (unsigned int)strtoul(argv[3], NULL, 0); // Parse the value as hexadecimal
 
-        SetValue(&w, &i, &j, &v);
+        printf("Usage : %s <j> <i> <v>\n", argv[0]);
+       	SetValue(&w, &i, &j, &v);
+	printf("Value has been set\nRun the command: %s <j> <v> \nThis will print the value\n", argv[0]);
+
     } else if (argc == 3) {
         int j = atoi(argv[1]);
         int i = atoi(argv[2]);
+	printf("Usage : %s <j> <i>\n", argv[0]);
         printf("Retrieved value = 0x%X\n", GetValue(&w, &j, &i));
-    } else if (argc > 4) {
-        printf("Too many arguments\n");
-    } else {
-        printf("Not enough arguments\n");
+    }
+    else {
+        printf("Usage : %s <j> <i> <v>\n", argv[0]);
+	return 1;
     }
 
     return 0;
